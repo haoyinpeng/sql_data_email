@@ -10,11 +10,11 @@ import datetime
 #print(sys.argv[0])
 #print(sys.argv[1])
 
-def get_pro_datas():
+def get_pro_datas(user,passwd):
 	#tns
 	tns = oracle.makedsn('172.18.2.52',1521,'perp1')
 	#connection
-	db = oracle.connect('B159212','flask&justDo-1',tns,encoding='utf-8',nencoding='utf-8')
+	db = oracle.connect(user,passwd,tns,encoding='utf-8',nencoding='utf-8')
 	#cursor
 	cursor = db.cursor()
 	print('cursor...')
@@ -38,11 +38,11 @@ def get_pro_datas():
 	print('db.close()...')
 	return result_all
 
-def get_test_datas():
+def get_test_datas(user,passwd):
 	#tns
 	tns = oracle.makedsn('172.18.2.152',1531,'terp1')
 	#connection
-	db = oracle.connect('apps','netra0apps',tns,encoding='utf-8',nencoding='utf-8')
+	db = oracle.connect(user,passwd,tns,encoding='utf-8',nencoding='utf-8')
 	#cursor
 	cursor = db.cursor()
 	print('cursor...')
@@ -71,7 +71,7 @@ def write_excel():
 	wb = openpyxl.Workbook()
 	#create a sheet
 	sheet1 = wb.create_sheet(index=0,title='outresource')
-	results_all = get_test_datas()
+	results_all = get_test_datas('','')
 	#results_all = get_pro_datas()
 	print('add title...')
 	sheet1.append(['库存组织名称','库存组织ID','委外资源编码','描述','委外资源费率','失效日期'])
