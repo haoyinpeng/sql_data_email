@@ -9,6 +9,17 @@ import datetime
 
 #print(sys.argv[0])
 #print(sys.argv[1])
+SQL_STR = sqls.W_RESOURCE
+SQL_PARAMS = sqls.PARAMS
+
+
+if sys.argv[2]=='W':
+	SQL_STR = sqls.W_RESOURCE
+	SQL_PARAMS = sqls.W_PARAMS
+elif sys.argv[2]=='..':
+	pass
+
+
 
 def get_pro_datas(user,passwd):
 	#tns
@@ -25,10 +36,8 @@ def get_pro_datas(user,passwd):
 		print('sys.argv[1]' + sys.argv[1])
 
 	#execute sql
-	sql_str = sqls.W_RESOURCE
-	params = {'resource_code':'W%'}
 	print('cursor execute...')
-	cursor.execute(sql_str,params)
+	cursor.execute(SQL_STR,SQL_PARAMS)
 	#fetch results
 	result_all = cursor.fetchall()
 	#close cursor
@@ -47,16 +56,14 @@ def get_test_datas(user,passwd):
 	cursor = db.cursor()
 	print('cursor...')
 
-	if sys.argv[0] == 'outresource':
+	if sys.argv[1] == 'outresource':
 		#params = {'resource_code':str(sys.argv[1])}
-		print('sys.argv[0]' + sys.argv[0])
 		print('sys.argv[1]' + sys.argv[1])
+		print('sys.argv[2]' + sys.argv[2])
 
 	#execute sql
-	sql_str = sqls.W_RESOURCE
-	params = {'resource_code':'W%'}
 	print('cursor execute...')
-	cursor.execute(sql_str,params)
+	cursor.execute(SQL_STR,SQL_PARAMS)
 	#fetch results
 	result_all = cursor.fetchall()
 	#close cursor
@@ -74,7 +81,7 @@ def write_excel():
 	results_all = get_test_datas('','')
 	#results_all = get_pro_datas()
 	print('add title...')
-	sheet1.append(['库存组织名称','库存组织ID','委外资源编码','描述','委外资源费率','失效日期'])
+	sheet1.append(sqls.W_TITLE)
 	print('add lines...')
 	for i in results_all:
 		sheet1.append(i)

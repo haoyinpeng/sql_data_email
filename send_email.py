@@ -1,12 +1,12 @@
 # -*- coding:utf-8 -*-
 
+import sys
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.header import Header
-import process_data
-
-
+import write_excels
+ 
 
 #邮件服务器地
 mail_host = "shmail.tianma.cn"
@@ -15,18 +15,18 @@ mail_host = "shmail.tianma.cn"
 mail_user = "yinpeng_hao" 
 
 #account_passwd
-mail_passwd = "flask&justDo-1"
-
+mail_passwd = sys.argv[1]
+print(mail_passwd)
 #发送人
 sender = 'yinpeng_hao@tianma.cn'
 
-#接收人
-receivers = ['shuqing_li@tianma.cn','cong_zhang@tianma.cn']
+#接收
+receivers = ['xuge_ning@tianma.cn']
 #receivers = ['haoyinpeng@live.cn']
 
 #excel file
 def get_file_excel():
-    return process_data.write_excel()
+    return write_excels.write_excel('B159212',sys.argv[1])
 
 def ready_content_of_mail():
 	print('ready message...')
