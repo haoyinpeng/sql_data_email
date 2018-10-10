@@ -10,7 +10,7 @@ import datetime
 #print(sys.argv[0])
 #print(sys.argv[1])
 SQL_STR = sqls.W_RESOURCE
-SQL_PARAMS = sqls.PARAMS
+SQL_PARAMS = sqls.W_PARAMS
 
 
 if sys.argv[2]=='W':
