@@ -13,10 +13,10 @@ SQL_STR = sqls.W_RESOURCE
 SQL_PARAMS = sqls.W_PARAMS
 
 
-if sys.argv[2]=='W':
+if sys.argv[2] is not None and sys.argv[2]=='W':
 	SQL_STR = sqls.W_RESOURCE
 	SQL_PARAMS = sqls.W_PARAMS
-elif sys.argv[2]=='..':
+elif sys.argv[2] is not None and sys.argv[2]=='..':
 	pass
 
 
