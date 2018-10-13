@@ -49,7 +49,7 @@ def get_test_datas(user,passwd):
 class WriteExcel(Workbook):
 	def __init__(self,user,passwd,data_kind,data_name,data_title):
 		print('__init__')
-		#super.__init__
+		super().__init__ #初始化基类 在此派生类的函数中就可以直接调用基类函数了
 		self.user = user
 		self.passwd = passwd
 		self.type = data_kind
