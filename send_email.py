@@ -5,7 +5,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.header import Header
-import write_excels
+#from write_excels import WriteExcel
  
 
 #邮件服务器地
@@ -24,45 +24,55 @@ sender = 'yinpeng_hao@tianma.cn'
 receivers = ['xuge_ning@tianma.cn']
 #receivers = ['haoyinpeng@live.cn']
 
-#excel file
-def get_file_excel():
-    return write_excels.write_excel('B159212',sys.argv[1])
+class SendEmail_excel():
+	def __init__(self,mail_user,mail_passwd,sender,receivers):
+		self.mail_host = "shmail.tianma.cn"
+		self.mail_user = mail_user
+		self.mail_passwd = mail_passwd 
+		self.sender = sender
+		self.receivers = receivers
+	
+	def set_infos(self,excel_path,excel_name,message_subject,message_text):
+		self.excel_path = excel_path
+		self.excel_name = excel_name
+		self.message_subject = message_subject
+		self.message_text = message_text
 
-def ready_content_of_mail():
-	print('ready message...')
-	#邮件对象实例 可以添加附件 富文本的对象实例
-	message = MIMEMultipart('alternative')
-    #email theme
-	subject = '厦门委外资源成本信息 测试 请忽略'
+	def read_excel(self):
+		att1 = MIMEText(open(self.excel_path,'rb').read(), 'base64', 'utf-8')
+		att1['Content-Type'] = 'application/octet-stream'
+		att1['Content-Disposition'] = 'attachment; filename= %s' ,str(self.excel_name)
+		return att1
+
+	def ready_content_of_mail(self):
+		#邮件对象实例 可以添加附件 富文本的对象实例
+		message = MIMEMultipart('alternative')
+		#email theme
+		#subject = '厦门委外资源成本信息 测试 请忽略'
+		message['Subject'] = Header(self.message_subject,'utf-8').encode()
+		#邮件文本内容
+		message.attach(MIMEText(self.message_text,'plain','utf-8'))
+
+		print('read excel...')
+		message.attach(self.read_excel())
+		return message
     
-	message['Subject'] = Header(subject,'utf-8').encode()
-    
-    #邮件文本内容
-	message.attach(MIMEText('测试邮件 请忽略','plain','utf-8'))
-
-	print('read excel...')
-	att1 = MIMEText(open(get_file_excel(),'rb').read(), 'base64', 'utf-8')
-	att1['Content-Type'] = 'application/octet-stream'
-	att1['Content-Disposition'] = 'attachment; filename="outresouece.xlsx"'
-	message.attach(att1)
-	return message 
-
-def send_email():
-	try:
-		print('smtplib...')
-		smtobj = smtplib.SMTP()
-		smtobj.connect(mail_host,25)
-		smtobj.ehlo()
-		#smtobj.starttls()#开启加密模式
-		#smtobj.set_debuglevel(1)#开启日志
-		print('login...')
-		smtobj.login(mail_user,mail_passwd)
-		smtobj.sendmail(sender,receivers,ready_content_of_mail().as_string())
-		print('email sended successfully')
-		smtobj.quit()
-	except smtplib.SMTPException:
-		print('email sended fail')
+	def exce_send_email(self):
+		try:
+			smtobj = smtplib.SMTP()
+			print('smtplib connect...')
+			smtobj.connect(mail_host,25)
+			smtobj.ehlo() #替换starttls
+			#smtobj.starttls()#开启加密模式
+			#smtobj.set_debuglevel(1)#开启日志
+			print('login...')
+			smtobj.login(mail_user,mail_passwd)
+			smtobj.sendmail(sender,receivers,self.ready_content_of_mail().as_string())
+			print('email sended successfully')
+			smtobj.quit()
+		except smtplib.SMTPException:
+			print('email sended fail')
 
 
 if __name__ == '__main__':
-	send_email()
+	pass

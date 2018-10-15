@@ -47,15 +47,18 @@ def get_test_datas(user,passwd):
 	return result_all
 
 class WriteExcel(Workbook):
-	def __init__(self,user,passwd,data_kind,data_name,data_title):
+	def __init__(self,user,passwd):
 		print('__init__')
-		super().__init__ #初始化基类 在此派生类的函数中就可以直接调用基类函数了
+		super().__init__() #初始化基类 在此派生类的函数中就可以直接调用基类函数了
 		self.user = user
 		self.passwd = passwd
-		self.type = data_kind
+		
+	#设置通用型变量
+	def set_infos(self,data_kind,data_name,data_title):
+		self.data_kind = data_kind
 		self.data_name = data_name
 		self.data_title = data_title
-
+	
 	def write_excel(self):
 		#create a sheet
 		sheet1 = self.create_sheet(index=0,title=str(self.data_name))
