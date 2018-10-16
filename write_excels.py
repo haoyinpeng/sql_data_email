@@ -1,4 +1,4 @@
-
+# -*- encoding:utf-8 -*-
 
 from openpyxl import Workbook
 #import process_data
@@ -48,7 +48,7 @@ def get_test_datas(user,passwd):
 
 class WriteExcel(Workbook):
 	def __init__(self,user,passwd):
-		print('__init__')
+		print('__init__...')
 		super().__init__() #初始化基类 在此派生类的函数中就可以直接调用基类函数了
 		self.user = user
 		self.passwd = passwd
