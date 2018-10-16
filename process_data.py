@@ -58,6 +58,25 @@ def get_test_datas(user,passwd):
 	print('db.close()...')
 	return result_all
 
+class Data_Process():
+    def __init__(self,user,passwd):
+    	self.user = user 
+    	self.passwd = passwd
+	
+    def set_pro_infos(self):
+    	self.db_host = '172.18.2.152'
+    	self.db_port = 1531
+    	self.db_name = 'terp1'
+
+	#设置测试环境连接信息
+    def set_test_infos(self):
+    	self.db_host = '172.18.2.152'
+    	self.db_port = 1531
+    	self.db_name = 'terp1'
+
+    def get_pro_datas(self):
+    	pass
+
 
 if __name__ == '__main__':
 	get_test_datas('','')
