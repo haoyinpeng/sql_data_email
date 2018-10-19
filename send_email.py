@@ -42,7 +42,7 @@ class SendEmail_excel():
 	def read_excel(self):
 		att1 = MIMEText(open(self.excel_path,'rb').read(), 'base64', 'utf-8')
 		att1['Content-Type'] = 'application/octet-stream'
-		att1['Content-Disposition'] = 'attachment; filename= %s' ,str(self.excel_name)
+		att1['Content-Disposition'] = 'attachment; filename= "'+ self.excel_name +'"'
 		return att1
 
 	def ready_content_of_mail(self):
@@ -68,11 +68,13 @@ class SendEmail_excel():
 			#smtobj.set_debuglevel(1)#开启日志
 			print('login...')
 			smtobj.login(self.mail_user,self.mail_passwd)
+			print('sending...')
 			smtobj.sendmail(self.sender,self.receivers,self.ready_content_of_mail().as_string())
 			print('email sended successfully')
 			smtobj.quit()
 		except smtplib.SMTPException:
 			print('email sended fail')
+			smtobj.quit()
 
 
 if __name__ == '__main__':
